@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: gestion-usuarios-be
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_POSTGRES_LOCAL_URL}/${DB_POSTGRES_LOCAL_NAME}
+    username: ${DB_POSTGRES_LOCAL_USERNAME}
+    password: ${DB_POSTGRES_LOCAL_PASSWORD}
+
+server:
+  port: ${SERVER_PORT}
