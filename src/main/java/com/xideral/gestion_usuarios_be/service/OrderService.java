@@ -1,7 +1,10 @@
 package com.xideral.gestion_usuarios_be.service;
 
+import static com.xideral.gestion_usuarios_be.enums.ErrorCode.USER_NOT_FOUND;
+import static com.xideral.gestion_usuarios_be.service.UserService.USER_NOT_EXIST_BY_ID;
+import static java.lang.String.format;
+
 import com.xideral.gestion_usuarios_be.dto.order.OrderDto;
-import com.xideral.gestion_usuarios_be.dto.user.UserDto;
 import com.xideral.gestion_usuarios_be.entity.Order;
 import com.xideral.gestion_usuarios_be.entity.User;
 import com.xideral.gestion_usuarios_be.enums.ErrorCode;
@@ -10,16 +13,10 @@ import com.xideral.gestion_usuarios_be.repository.OrderRepository;
 import com.xideral.gestion_usuarios_be.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static com.xideral.gestion_usuarios_be.enums.ErrorCode.USER_NOT_FOUND;
-import static com.xideral.gestion_usuarios_be.service.UserService.USER_NOT_EXIST_BY_ID;
-import static java.lang.String.format;
 
 @Slf4j
 @Service

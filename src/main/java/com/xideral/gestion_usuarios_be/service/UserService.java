@@ -7,7 +7,6 @@ import com.xideral.gestion_usuarios_be.entity.User;
 import com.xideral.gestion_usuarios_be.enums.ErrorCode;
 import com.xideral.gestion_usuarios_be.exception.UseCaseException;
 import com.xideral.gestion_usuarios_be.repository.UserRepository;
-import io.micrometer.common.util.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

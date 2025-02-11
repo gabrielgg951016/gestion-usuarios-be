@@ -3,6 +3,8 @@ package com.xideral.gestion_usuarios_be.entity;
 import com.xideral.gestion_usuarios_be.enums.OrderStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.GeneratedValue;
@@ -14,12 +16,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.UpdateTimestamp;
-
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @Builder(toBuilder = true)
 @AllArgsConstructor
@@ -40,7 +40,9 @@ public class Order {
     @Column(name = "total")
     private Long total;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
+    @ColumnTransformer(write = "?::status")
     private OrderStatus status;
 
     @Column(name = "date_created")

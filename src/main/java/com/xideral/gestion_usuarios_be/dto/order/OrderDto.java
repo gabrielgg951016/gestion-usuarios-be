@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xideral.gestion_usuarios_be.entity.Order;
 import com.xideral.gestion_usuarios_be.enums.OrderStatus;
 import lombok.Builder;
-import lombok.NonNull;
-
 import java.sql.Date;
 
 @Builder(toBuilder = true)

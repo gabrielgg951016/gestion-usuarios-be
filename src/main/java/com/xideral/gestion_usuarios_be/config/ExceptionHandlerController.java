@@ -1,5 +1,9 @@
 package com.xideral.gestion_usuarios_be.config;
 
+import static com.xideral.gestion_usuarios_be.enums.ErrorCode.INTERNAL_SERVER_ERROR;
+import static com.xideral.gestion_usuarios_be.enums.ErrorCode.INVALID_PARAMETERS;
+import static com.xideral.gestion_usuarios_be.enums.ErrorCode.RESOURCE_NOT_FOUND;
+
 import com.xideral.gestion_usuarios_be.exception.ApiError;
 import com.xideral.gestion_usuarios_be.exception.UseCaseException;
 import lombok.extern.slf4j.Slf4j;
@@ -10,8 +14,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
-
-import static com.xideral.gestion_usuarios_be.enums.ErrorCode.*;
 
 @Slf4j
 @ControllerAdvice
@@ -27,7 +29,7 @@ public class ExceptionHandlerController {
     public ResponseEntity<ApiError> methodValidationExceptionHandler(HandlerMethodValidationException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ApiError.builder()
-                        .status(INVALID_PARAMETERS.getStatus().value())
+                        .status(e.hashCode())
                         .message("One or more fields have invalid values.")
                         .errorCode(INVALID_PARAMETERS.getCode())
                         .build());
@@ -37,7 +39,7 @@ public class ExceptionHandlerController {
     public ResponseEntity<ApiError> methodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ApiError.builder()
-                        .status(INVALID_PARAMETERS.getStatus().value())
+                        .status(e.hashCode())
                         .message("The value provided for one or more parameters is not of the expected type.")
                         .errorCode(INVALID_PARAMETERS.getCode())
                         .build());
@@ -47,7 +49,7 @@ public class ExceptionHandlerController {
     public ResponseEntity<ApiError> noResourceFoundException(NoResourceFoundException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ApiError.builder()
-                        .status(RESOURCE_NOT_FOUND.getStatus().value())
+                        .status(e.hashCode())
                         .message("Resource not found")
                         .errorCode(RESOURCE_NOT_FOUND.getCode())
                         .build());
