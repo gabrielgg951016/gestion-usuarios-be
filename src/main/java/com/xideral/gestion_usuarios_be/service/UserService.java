@@ -7,6 +7,7 @@ import com.xideral.gestion_usuarios_be.entity.User;
 import com.xideral.gestion_usuarios_be.enums.ErrorCode;
 import com.xideral.gestion_usuarios_be.exception.UseCaseException;
 import com.xideral.gestion_usuarios_be.repository.UserRepository;
+import io.micrometer.common.util.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,9 +18,9 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserService {
 
-    private static final String USER_EXIST = "El Usuario %s ya se encuentra registrado";
-    private static final String USER_NOT_EXIST = "El usuario %s no existe";
-    private static final String USER_NOT_EXIST_BY_ID = "El usuario con id %d no existe";
+    public static final String USER_EXIST = "El Usuario %s ya se encuentra registrado";
+    public static final String USER_NOT_EXIST = "El usuario %s no existe";
+    public static final String USER_NOT_EXIST_BY_ID = "El usuario con id %d no existe";
 
     private UserRepository userRepository;
 
@@ -45,13 +46,14 @@ public class UserService {
                 User.builder()
                         .name(userRequest.name())
                         .email(userRequest.email())
+                        .dateCreated(userRequest.dateCreated())
                         .build()
         ));
     }
 
-    public UserDto updateUser (UserDto userRequest) {
+    public UserDto updateUser (Long id,  UserDto userRequest) {
 
-        final Optional<User> user = userRepository.findById(userRequest.id());
+        final Optional<User> user = userRepository.findById(id);
 
         if(user.isEmpty()) {
             throw new UseCaseException(ErrorCode.USER_NOT_FOUND, format(USER_NOT_EXIST_BY_ID, userRequest.id()));
@@ -59,7 +61,7 @@ public class UserService {
 
         final Optional<User> userNewName = userRepository.findByName(userRequest.name());
 
-        if(userNewName.isPresent()) {
+        if(userNewName.isPresent() && !id.equals(userNewName.get().getId())) {
             throw new UseCaseException(ErrorCode.DUPLICATE_ELEMENT, format(USER_EXIST, userRequest.name()));
         }
 
@@ -67,6 +69,7 @@ public class UserService {
                 user.get().toBuilder()
                         .name(userRequest.name())
                         .email(userRequest.email())
+                        .dateCreated(user.get().getDateCreated())
                         .build()
         ));
     }

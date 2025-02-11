@@ -12,7 +12,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -20,6 +25,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Data
 @Table(name = "orders")
 public class Order {
     @Id
@@ -37,10 +43,11 @@ public class Order {
     @Column(name = "status")
     private OrderStatus status;
 
-    @Column(name = "date_created", updatable = false)
-    private Timestamp createdDate = Timestamp.valueOf(LocalDateTime.now());
+    @Column(name = "date_created")
+    private Date dateCreated;
 
     @Column(name = "last_updated")
-    private Timestamp lastUpdated = Timestamp.valueOf(LocalDateTime.now());
+    @UpdateTimestamp
+    private Timestamp lastUpdated;
 }
 

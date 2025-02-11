@@ -2,7 +2,6 @@ package com.xideral.gestion_usuarios_be.exception;
 
 import com.xideral.gestion_usuarios_be.enums.ErrorCode;
 import lombok.Getter;
-
 import java.io.Serial;
 
 @Getter
