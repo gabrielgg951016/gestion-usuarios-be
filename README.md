@@ -73,88 +73,88 @@ Curl - Usuario (User)
 
 GET - por Id
 
-curl --request GET \
-  --url http://localhost:8081/users/6 \
-  --header 'authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJqdGkiOiIxMCIsIm5hbWUiOiJ4aWRlcmFsIiwic3ViIjoieGlkZXJhbCIsImlhdCI6MTczOTM0OTY5NywiZXhwIjoxNzM5NDM2MDk3fQ.UwjBwl_2vHD4ngfIcjQAORFn_RvWuwwD_mdX5yL6b7GrWTlVi2XM7PqvCQeRHPij'
+    curl --request GET \
+          --url http://localhost:8081/users/6 \
+          --header 'authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJqdGkiOiIxMCIsIm5hbWUiOiJ4aWRlcmFsIiwic3ViIjoieGlkZXJhbCIsImlhdCI6MTczOTM0OTY5NywiZXhwIjoxNzM5NDM2MDk3fQ.UwjBwl_2vHD4ngfIcjQAORFn_RvWuwwD_mdX5yL6b7GrWTlVi2XM7PqvCQeRHPij'
 
 GET - por nombre
 
-curl --request GET \ --url http://localhost:8081/users/by-name/Gabriel \ --header 'authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJqdGkiOiIxMCIsIm5hbWUiOiJ4aWRlcmFsIiwic3ViIjoieGlkZXJhbCIsImlhdCI6MTczOTM0OTY5NywiZXhwIjoxNzM5NDM2MDk3fQ.UwjBwl_2vHD4ngfIcjQAORFn_RvWuwwD_mdX5yL6b7GrWTlVi2XM7PqvCQeRHPij'
+    curl --request GET \ --url http://localhost:8081/users/by-name/Gabriel \ --header 'authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJqdGkiOiIxMCIsIm5hbWUiOiJ4aWRlcmFsIiwic3ViIjoieGlkZXJhbCIsImlhdCI6MTczOTM0OTY5NywiZXhwIjoxNzM5NDM2MDk3fQ.UwjBwl_2vHD4ngfIcjQAORFn_RvWuwwD_mdX5yL6b7GrWTlVi2XM7PqvCQeRHPij'
 
 POST - crear Usuario
 
-curl --request POST \
-  --url http://localhost:8081/users \
-  --header 'authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJqdGkiOiIxMCIsIm5hbWUiOiJ4aWRlcmFsIiwic3ViIjoieGlkZXJhbCIsImlhdCI6MTczOTM0OTY5NywiZXhwIjoxNzM5NDM2MDk3fQ.UwjBwl_2vHD4ngfIcjQAORFn_RvWuwwD_mdX5yL6b7GrWTlVi2XM7PqvCQeRHPij' \
-  --header 'content-type: application/json' \
-  --data '{
-  "name": "marcos",
-  "email": "marcos@gmail.comm",
-  "date_created": "2025-12-01"
-}'
+    curl --request POST \
+      --url http://localhost:8081/users \
+      --header 'authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJqdGkiOiIxMCIsIm5hbWUiOiJ4aWRlcmFsIiwic3ViIjoieGlkZXJhbCIsImlhdCI6MTczOTM0OTY5NywiZXhwIjoxNzM5NDM2MDk3fQ.UwjBwl_2vHD4ngfIcjQAORFn_RvWuwwD_mdX5yL6b7GrWTlVi2XM7PqvCQeRHPij' \
+      --header 'content-type: application/json' \
+      --data '{
+      "name": "marcos",
+      "email": "marcos@gmail.comm",
+      "date_created": "2025-12-01"
+    }'
 
 PUT - editar Usuario
 
-curl --request PUT \
-  --url http://localhost:8081/users/3 \
-  --header 'authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJqdGkiOiIxMCIsIm5hbWUiOiJ4aWRlcmFsIiwic3ViIjoieGlkZXJhbCIsImlhdCI6MTczOTM0OTY5NywiZXhwIjoxNzM5NDM2MDk3fQ.UwjBwl_2vHD4ngfIcjQAORFn_RvWuwwD_mdX5yL6b7GrWTlVi2XM7PqvCQeRHPij' \
-  --header 'content-type: application/json' \
-  --data '{
-  "id": 3,
-  "name": "jorge",
-  "email": "jorge@gmail.comm",
-  "date_created": "2025-02-10"
-}'
+    curl --request PUT \
+      --url http://localhost:8081/users/3 \
+      --header 'authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJqdGkiOiIxMCIsIm5hbWUiOiJ4aWRlcmFsIiwic3ViIjoieGlkZXJhbCIsImlhdCI6MTczOTM0OTY5NywiZXhwIjoxNzM5NDM2MDk3fQ.UwjBwl_2vHD4ngfIcjQAORFn_RvWuwwD_mdX5yL6b7GrWTlVi2XM7PqvCQeRHPij' \
+      --header 'content-type: application/json' \
+      --data '{
+      "id": 3,
+      "name": "jorge",
+      "email": "jorge@gmail.comm",
+      "date_created": "2025-02-10"
+    }'
 
 DELETE - eliminar usuario por Id
 
-curl --request DELETE \
-  --url http://localhost:8081/users/3 \
-  --header 'authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJqdGkiOiIxMCIsIm5hbWUiOiJ4aWRlcmFsIiwic3ViIjoieGlkZXJhbCIsImlhdCI6MTczOTM0OTY5NywiZXhwIjoxNzM5NDM2MDk3fQ.UwjBwl_2vHD4ngfIcjQAORFn_RvWuwwD_mdX5yL6b7GrWTlVi2XM7PqvCQeRHPij'
+    curl --request DELETE \
+      --url http://localhost:8081/users/3 \
+      --header 'authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJqdGkiOiIxMCIsIm5hbWUiOiJ4aWRlcmFsIiwic3ViIjoieGlkZXJhbCIsImlhdCI6MTczOTM0OTY5NywiZXhwIjoxNzM5NDM2MDk3fQ.UwjBwl_2vHD4ngfIcjQAORFn_RvWuwwD_mdX5yL6b7GrWTlVi2XM7PqvCQeRHPij'
 
 Pedidos (Order)
 
 GET - por Id
 
-curl --request GET \
-  --url http://localhost:8081/orders/6 \
-  --header 'authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJqdGkiOiIxMCIsIm5hbWUiOiJ4aWRlcmFsIiwic3ViIjoieGlkZXJhbCIsImlhdCI6MTczOTM0OTY5NywiZXhwIjoxNzM5NDM2MDk3fQ.UwjBwl_2vHD4ngfIcjQAORFn_RvWuwwD_mdX5yL6b7GrWTlVi2XM7PqvCQeRHPij'
+    curl --request GET \
+      --url http://localhost:8081/orders/6 \
+      --header 'authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJqdGkiOiIxMCIsIm5hbWUiOiJ4aWRlcmFsIiwic3ViIjoieGlkZXJhbCIsImlhdCI6MTczOTM0OTY5NywiZXhwIjoxNzM5NDM2MDk3fQ.UwjBwl_2vHD4ngfIcjQAORFn_RvWuwwD_mdX5yL6b7GrWTlVi2XM7PqvCQeRHPij'
 
 GET - por id del usuario
 
-curl --request GET \
-  --url http://localhost:8081/orders/by-user-id/6 \
-  --header 'authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJqdGkiOiIxMCIsIm5hbWUiOiJ4aWRlcmFsIiwic3ViIjoieGlkZXJhbCIsImlhdCI6MTczOTM0OTY5NywiZXhwIjoxNzM5NDM2MDk3fQ.UwjBwl_2vHD4ngfIcjQAORFn_RvWuwwD_mdX5yL6b7GrWTlVi2XM7PqvCQeRHPij'
+    curl --request GET \
+      --url http://localhost:8081/orders/by-user-id/6 \
+      --header 'authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJqdGkiOiIxMCIsIm5hbWUiOiJ4aWRlcmFsIiwic3ViIjoieGlkZXJhbCIsImlhdCI6MTczOTM0OTY5NywiZXhwIjoxNzM5NDM2MDk3fQ.UwjBwl_2vHD4ngfIcjQAORFn_RvWuwwD_mdX5yL6b7GrWTlVi2XM7PqvCQeRHPij'
 
 POST - crear pedido
 
-curl --request POST \
-  --url http://localhost:8081/orders \
-  --header 'authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJqdGkiOiIxMCIsIm5hbWUiOiJ4aWRlcmFsIiwic3ViIjoieGlkZXJhbCIsImlhdCI6MTczOTM0OTY5NywiZXhwIjoxNzM5NDM2MDk3fQ.UwjBwl_2vHD4ngfIcjQAORFn_RvWuwwD_mdX5yL6b7GrWTlVi2XM7PqvCQeRHPij' \
-  --header 'content-type: application/json' \
-  --data '{
-    "user_id": 6,
-    "status": "COMPLETADO",
-    "total": 12,
-    "date_created": "2025-01-29"
-  }'
+    curl --request POST \
+      --url http://localhost:8081/orders \
+      --header 'authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJqdGkiOiIxMCIsIm5hbWUiOiJ4aWRlcmFsIiwic3ViIjoieGlkZXJhbCIsImlhdCI6MTczOTM0OTY5NywiZXhwIjoxNzM5NDM2MDk3fQ.UwjBwl_2vHD4ngfIcjQAORFn_RvWuwwD_mdX5yL6b7GrWTlVi2XM7PqvCQeRHPij' \
+      --header 'content-type: application/json' \
+      --data '{
+        "user_id": 6,
+        "status": "COMPLETADO",
+        "total": 12,
+        "date_created": "2025-01-29"
+      }'
 
 PUT - editar pedido
 
-curl --request PUT \
-  --url http://localhost:8081/orders/1 \
-  --header 'authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJqdGkiOiIxMCIsIm5hbWUiOiJ4aWRlcmFsIiwic3ViIjoieGlkZXJhbCIsImlhdCI6MTczOTM0OTY5NywiZXhwIjoxNzM5NDM2MDk3fQ.UwjBwl_2vHD4ngfIcjQAORFn_RvWuwwD_mdX5yL6b7GrWTlVi2XM7PqvCQeRHPij' \
-  --header 'content-type: application/json' \
-  --data '{
-    "id": 1,
-    "user_id": 7,
-    "status": "COMPLETADO",
-    "total": 12,
-    "date_created": "2025-01-29"
-}'
+    curl --request PUT \
+      --url http://localhost:8081/orders/1 \
+      --header 'authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJqdGkiOiIxMCIsIm5hbWUiOiJ4aWRlcmFsIiwic3ViIjoieGlkZXJhbCIsImlhdCI6MTczOTM0OTY5NywiZXhwIjoxNzM5NDM2MDk3fQ.UwjBwl_2vHD4ngfIcjQAORFn_RvWuwwD_mdX5yL6b7GrWTlVi2XM7PqvCQeRHPij' \
+      --header 'content-type: application/json' \
+      --data '{
+        "id": 1,
+        "user_id": 7,
+        "status": "COMPLETADO",
+        "total": 12,
+        "date_created": "2025-01-29"
+    }'
 
 DELETE - borrar pedido
 
-curl --request DELETE \
-  --url http://localhost:8081/orders/1 \
-  --header 'authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJqdGkiOiIxMCIsIm5hbWUiOiJ4aWRlcmFsIiwic3ViIjoieGlkZXJhbCIsImlhdCI6MTczOTM0OTY5NywiZXhwIjoxNzM5NDM2MDk3fQ.UwjBwl_2vHD4ngfIcjQAORFn_RvWuwwD_mdX5yL6b7GrWTlVi2XM7PqvCQeRHPij'
+    curl --request DELETE \
+      --url http://localhost:8081/orders/1 \
+      --header 'authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJqdGkiOiIxMCIsIm5hbWUiOiJ4aWRlcmFsIiwic3ViIjoieGlkZXJhbCIsImlhdCI6MTczOTM0OTY5NywiZXhwIjoxNzM5NDM2MDk3fQ.UwjBwl_2vHD4ngfIcjQAORFn_RvWuwwD_mdX5yL6b7GrWTlVi2XM7PqvCQeRHPij'
