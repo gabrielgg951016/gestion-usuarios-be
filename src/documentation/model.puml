@@ -1,0 +1,21 @@
+@startuml
+
+entity users {
+  id
+  name
+  email
+  date_created
+  last_updated
+}
+
+entity orders {
+  id
+  user_id
+  date_created
+  last_updated
+  status
+  total
+}
+
+users ||--|{ orders : has many
+@enduml
