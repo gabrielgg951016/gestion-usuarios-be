@@ -1,24 +1,15 @@
 package com.xideral.gestion_usuarios_be.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
 
-import com.xideral.gestion_usuarios_be.dto.login.LoginRequest;
-import com.xideral.gestion_usuarios_be.dto.token.TokenResponse;
 import com.xideral.gestion_usuarios_be.entity.UserAuth;
-import com.xideral.gestion_usuarios_be.repository.TokenRepository;
-import com.xideral.gestion_usuarios_be.repository.UserAuthRepository;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;

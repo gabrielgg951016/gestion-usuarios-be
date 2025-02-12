@@ -1,33 +1,29 @@
 package com.xideral.gestion_usuarios_be.service;
 
-import static com.xideral.gestion_usuarios_be.enums.ErrorCode.USER_NOT_FOUND;
-import static java.lang.String.format;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import com.fasterxml.jackson.databind.introspect.TypeResolutionContext;
-import com.xideral.gestion_usuarios_be.dto.login.LoginRequest;
 import com.xideral.gestion_usuarios_be.dto.order.OrderDto;
-import com.xideral.gestion_usuarios_be.dto.token.TokenResponse;
 import com.xideral.gestion_usuarios_be.entity.Order;
 import com.xideral.gestion_usuarios_be.entity.User;
-import com.xideral.gestion_usuarios_be.entity.UserAuth;
-import com.xideral.gestion_usuarios_be.enums.ErrorCode;
 import com.xideral.gestion_usuarios_be.enums.OrderStatus;
 import com.xideral.gestion_usuarios_be.exception.UseCaseException;
 import com.xideral.gestion_usuarios_be.repository.OrderRepository;
-import com.xideral.gestion_usuarios_be.repository.TokenRepository;
-import com.xideral.gestion_usuarios_be.repository.UserAuthRepository;
 import com.xideral.gestion_usuarios_be.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 import java.sql.Date;
 import java.util.Collections;
 import java.util.List;
@@ -307,16 +303,17 @@ class OrderServiceTest {
                 .dateCreated(new Date(123456789000L))
                 .build();
 
-        User user2 = User.builder()
-                .id(2L)
-                .name("user")
-                .email("correo@gmail.com")
-                .dateCreated(new Date(123456789000L))
-                .build();
-
         Order order = Order.builder()
                 .id(1L)
                 .user(user)
+                .status(OrderStatus.PENDIENTE)
+                .total(10L)
+                .dateCreated(new Date(123456789000L))
+                .build();
+
+        OrderDto orderDtoCreated = OrderDto.builder()
+                .id(1L)
+                .userId(1L)
                 .status(OrderStatus.PENDIENTE)
                 .total(10L)
                 .dateCreated(new Date(123456789000L))
@@ -330,7 +327,7 @@ class OrderServiceTest {
 
         OrderDto orderCreate = orderService.updateOrder(1L, orderDto);
 
-        assertEquals(orderDto, orderCreate);
+        assertEquals(orderDtoCreated, orderCreate);
 
         verify(orderRepository, times(1)).save(any(Order.class));
     }
@@ -369,8 +366,5 @@ class OrderServiceTest {
 
         verify(orderRepository, never()).save(any(Order.class));
     }
-
-
-
 
 }

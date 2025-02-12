@@ -1,21 +1,21 @@
 package com.xideral.gestion_usuarios_be.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.xideral.gestion_usuarios_be.dto.login.LoginRequest;
 import com.xideral.gestion_usuarios_be.dto.token.TokenResponse;
 import com.xideral.gestion_usuarios_be.entity.UserAuth;
-import com.xideral.gestion_usuarios_be.repository.TokenRepository;
 import com.xideral.gestion_usuarios_be.repository.UserAuthRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -29,16 +29,10 @@ class AuthServiceTest {
     private AuthService authService;
 
     @Mock
-    private TokenRepository tokenRepository;
-
-    @Mock
     private PasswordEncoder passwordEncoder;
 
     @Mock
     private JwtService jwtService;
-
-    @Mock
-    private AuthenticationManager authenticationManager;
 
     @Test
     void register_Success() {

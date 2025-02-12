@@ -1,106 +1,277 @@
 package com.xideral.gestion_usuarios_be.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import com.xideral.gestion_usuarios_be.dto.login.LoginRequest;
-import com.xideral.gestion_usuarios_be.dto.token.TokenResponse;
-import com.xideral.gestion_usuarios_be.entity.UserAuth;
-import com.xideral.gestion_usuarios_be.repository.TokenRepository;
-import com.xideral.gestion_usuarios_be.repository.UserAuthRepository;
+import com.xideral.gestion_usuarios_be.dto.user.UserDto;
+import com.xideral.gestion_usuarios_be.entity.User;
+import com.xideral.gestion_usuarios_be.exception.UseCaseException;
+import com.xideral.gestion_usuarios_be.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import java.sql.Date;
+import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
+    public static final Date DATE_CREATED = new Date(123456789000L);
+    private static final String USER_NAME = "testUser";
+    private static final String USER_EMAIL = "correo@gmail.com";
+
     @Mock
-    private UserAuthRepository userAuthRepository;
+    private UserRepository userRepository;
 
     @InjectMocks
-    private AuthService authService;
-
-    @Mock
-    private TokenRepository tokenRepository;
-
-    @Mock
-    private PasswordEncoder passwordEncoder;
-
-    @Mock
-    private JwtService jwtService;
-
-    @Mock
-    private AuthenticationManager authenticationManager;
+    private UserService userService;
 
     @Test
-    void register_shouldCreateNewUserAndGenerateToken() {
+    void getUserById_Success() {
 
-        LoginRequest loginRequest = LoginRequest.builder()
-                .user("testUser")
-                .password("encodedPassword")
+        User user = User.builder()
+                .id(1L)
+                .name(USER_NAME)
+                .email(USER_EMAIL)
+                .dateCreated(DATE_CREATED)
                 .build();
 
-        UserAuth expectedUserAuth = UserAuth.builder()
-                .user("testUser")
-                .password("encodedPassword")
+        UserDto userDtoResponse = UserDto.builder()
+                .id(1L)
+                .name(USER_NAME)
+                .email(USER_EMAIL)
+                .dateCreated(DATE_CREATED)
                 .build();
 
-        when(passwordEncoder.encode(loginRequest.password())).thenReturn("encodedPassword");
-        when(userAuthRepository.save(expectedUserAuth)).thenReturn(expectedUserAuth);
-        when(jwtService.generateToken(expectedUserAuth)).thenReturn("testToken");
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
-        TokenResponse response = authService.register(loginRequest);
+        UserDto userDto = userService.getUserById(1L);
 
-        assertEquals("testToken", response.accessToken());
+        assertEquals(userDtoResponse, userDto);
 
-        verify(userAuthRepository, times(1)).save(expectedUserAuth);
-        verify(jwtService, times(1)).generateToken(expectedUserAuth);
+        verify(userRepository, times(1)).findById(1L);
     }
 
     @Test
-    void login_shouldAuthenticateUserAndGenerateToken() {
+    void getUserById_Failed() {
 
-        LoginRequest loginRequest = LoginRequest.builder()
-                .user("testUser")
-                .password("encodedPassword")
-                .build();
+        when(userRepository.findById(1L)).thenReturn(Optional.empty());
 
-        UserAuth expectedUserAuth = UserAuth.builder()
-                .user("testUser")
-                .password("encodedPassword")
-                .build();
+        assertThrows(UseCaseException.class, () -> userService.getUserById(1L));
 
-        when(userAuthRepository.findByUser("testUser")).thenReturn(java.util.Optional.of(expectedUserAuth));
-        when(jwtService.generateToken(expectedUserAuth)).thenReturn("testToken");
-
-        TokenResponse response = authService.login(loginRequest);
-
-        assertEquals("testToken", response.accessToken());
-
-        verify(userAuthRepository, times(1)).findByUser("testUser");
-        verify(jwtService, times(1)).generateToken(expectedUserAuth);
+        verify(userRepository, times(1)).findById(1L);
     }
 
     @Test
-    void login_shouldThrowUsernameNotFoundException_whenUserNotFound() {
-
-        LoginRequest loginRequest = LoginRequest.builder()
-                .user("invalidUser")
-                .password("encodedPassword")
+    void getUserByName_Success() {
+        User user = User.builder()
+                .id(1L)
+                .name(USER_NAME)
+                .email(USER_EMAIL)
+                .dateCreated(DATE_CREATED)
                 .build();
 
-        when(userAuthRepository.findByUser("invalidUser")).thenReturn(java.util.Optional.empty());
+        UserDto userDtoResponse = UserDto.builder()
+                .id(1L)
+                .name(USER_NAME)
+                .email(USER_EMAIL)
+                .dateCreated(DATE_CREATED)
+                .build();
 
-        assertThrows(UsernameNotFoundException.class, () -> authService.login(loginRequest));
+        when(userRepository.findByName(USER_NAME)).thenReturn(Optional.of(user));
 
-        verify(userAuthRepository, times(1)).findByUser("invalidUser");
-        verify(jwtService, times(0)).generateToken(any(UserAuth.class));
+        UserDto userDto = userService.getUserByName(USER_NAME);
+
+        assertEquals(userDtoResponse, userDto);
+
+        verify(userRepository, times(1)).findByName(USER_NAME);
+
+    }
+
+    @Test
+    void getUserByName_Failed() {
+
+        when(userRepository.findByName(USER_NAME)).thenReturn(Optional.empty());
+
+        assertThrows(UseCaseException.class, () -> userService.getUserByName(USER_NAME));
+
+        verify(userRepository, times(1)).findByName(USER_NAME);
+    }
+
+    @Test
+    void createUser_Success() {
+
+        User user = User.builder()
+                .id(1L)
+                .name(USER_NAME)
+                .email(USER_EMAIL)
+                .dateCreated(DATE_CREATED)
+                .build();
+
+        UserDto userDtoRequest = UserDto.builder()
+                .name(USER_NAME)
+                .email(USER_EMAIL)
+                .dateCreated(DATE_CREATED)
+                .build();
+
+        UserDto userDtoResponse = UserDto.builder()
+                .id(1L)
+                .name(USER_NAME)
+                .email(USER_EMAIL)
+                .dateCreated(DATE_CREATED)
+                .build();
+
+        when(userRepository.findByName(USER_NAME)).thenReturn(Optional.empty());
+
+        when(userRepository.save(any(User.class))).thenReturn(user);
+
+        UserDto userCreated = userService.createUser(userDtoRequest);
+
+        assertAll("Validación del token",
+                () ->  assertNotNull(userCreated),
+                () -> assertEquals(userDtoResponse.id(), userCreated.id()),
+                () -> assertEquals(userDtoResponse.name(), userCreated.name()),
+                () -> assertEquals(userDtoResponse.email(), userCreated.email()),
+                () -> assertEquals(userDtoResponse.dateCreated(), userCreated.dateCreated())
+        );
+
+        verify(userRepository, times(1)).save(any(User.class));
+    }
+
+    @Test
+    void createUser_Failed() {
+
+        User user = User.builder()
+                .id(1L)
+                .name(USER_NAME)
+                .email(USER_EMAIL)
+                .dateCreated(DATE_CREATED)
+                .build();
+
+        UserDto userDtoRequest = UserDto.builder()
+                .name(USER_NAME)
+                .email(USER_EMAIL)
+                .dateCreated(DATE_CREATED)
+                .build();
+
+        when(userRepository.findByName(USER_NAME)).thenReturn(Optional.of(user));
+
+        assertThrows(UseCaseException.class, () -> userService.createUser(userDtoRequest));
+
+        verify(userRepository, never()).save(any(User.class));
+    }
+
+    @Test
+    void deleteOrder_Sucess() {
+
+        User user = User.builder()
+                .id(1L)
+                .name("user")
+                .email("correo@gmail.com")
+                .dateCreated(new Date(123456789000L))
+                .build();
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        userService.deleteUser(1L);
+
+        verify(userRepository, times(1)).deleteById(1L);
+    }
+
+    @Test
+    void deleteOrder_Failed() {
+
+        when(userRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(UseCaseException.class, () -> userService.deleteUser(1L));
+
+        verify(userRepository, never()).deleteById(1L);
+    }
+
+    @Test
+    void updateUser_Sucess() {
+
+        User user = User.builder()
+                .id(1L)
+                .name(USER_NAME)
+                .email(USER_EMAIL)
+                .dateCreated(DATE_CREATED)
+                .build();
+
+        UserDto userDtoRequest = UserDto.builder()
+                .id(1L)
+                .name(USER_NAME)
+                .email(USER_EMAIL)
+                .dateCreated(DATE_CREATED)
+                .build();
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        when(userRepository.save(any(User.class))).thenReturn(user);
+
+        UserDto userCreated = userService.updateUser(1L, userDtoRequest);
+
+        assertEquals(userDtoRequest, userCreated);
+
+        verify(userRepository, times(1)).save(any(User.class));
+    }
+
+    @Test
+    void updateOrder_Failed_IDNotFound() {
+
+        UserDto userDtoRequest = UserDto.builder()
+                .id(1L)
+                .name(USER_NAME)
+                .email(USER_EMAIL)
+                .dateCreated(DATE_CREATED)
+                .build();
+
+        when(userRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(UseCaseException.class, () -> userService.updateUser(1L, userDtoRequest));
+
+        verify(userRepository, never()).save(any(User.class));
+    }
+
+    @Test
+    void updateOrder_Failed_UserDuplicated() {
+
+        User user = User.builder()
+                .id(1L)
+                .name(USER_NAME)
+                .email(USER_EMAIL)
+                .dateCreated(DATE_CREATED)
+                .build();
+
+        User userDuplicated = User.builder()
+                .id(2L)
+                .name(USER_NAME)
+                .email(USER_EMAIL)
+                .dateCreated(DATE_CREATED)
+                .build();
+
+        UserDto userDtoRequest = UserDto.builder()
+                .id(1L)
+                .name(USER_NAME)
+                .email(USER_EMAIL)
+                .dateCreated(DATE_CREATED)
+                .build();
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+        when(userRepository.findByName(USER_NAME)).thenReturn(Optional.of(userDuplicated));
+
+        assertThrows(UseCaseException.class, () -> userService.updateUser(1L, userDtoRequest));
+
+        verify(userRepository, never()).save(any(User.class));
     }
 
 }
