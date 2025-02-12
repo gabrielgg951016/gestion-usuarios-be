@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: sa
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    generate-ddl: true
+    properties:
+      hibernate:
+        format_sql: true
+        temp:
+          use_jdbc_metadata_defaults: false
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+
+application:
+  name: gestion-usuarios-be-test
+  security:
+    jwt:
+      secret-key: jK8bL3mQ9nZ5xY7wV2tD1aF6sG4eR0c
+      expiration: 86400000
+      refresh-token:
+        expiration: 604800000

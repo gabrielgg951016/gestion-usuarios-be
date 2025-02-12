@@ -2,6 +2,7 @@ package com.xideral.gestion_usuarios_be.config;
 
 import com.xideral.gestion_usuarios_be.entity.UserAuth;
 import com.xideral.gestion_usuarios_be.repository.UserAuthRepository;
+import com.xideral.gestion_usuarios_be.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -54,4 +55,10 @@ public class AppConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
+
+    @Bean
+    public JwtService jwtService() {
+        return new JwtService();
+    }
+
 }

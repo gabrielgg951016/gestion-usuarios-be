@@ -19,7 +19,7 @@ application:
   name: gestion-usuarios-be
   security:
     jwt:
-      secret-key: Xy93GvLdFqTpNk6WmZcRbAoEs1JfHtV2Xy93GvLdFqTpNk6WmZcRbAoEs1JfHtV2
+      secret-key: ${JWT_SECRET_KEY}
       expiration: 86400000
       refresh-token:
         expiration: 604800000
